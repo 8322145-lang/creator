@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CreatorHub | 全球创作者合作平台</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,10 +20,10 @@
         
         /* 动态背景球 */
         .blob { position: absolute; filter: blur(80px); z-index: -1; opacity: 0.5; animation: float 10s infinite ease-in-out; }
-        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #C4B5FD; animation-duration: 12s; }
-        .blob-2 { top: 20%; right: -20%; width: 40vw; height: 40vw; background: #FBCFE8; animation-delay: 2s; }
-        .blob-3 { bottom: -10%; left: 20%; width: 45vw; height: 45vw; background: #BAE6FD; animation-delay: 4s; }
-        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -30px) scale(1.05); } }
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #C4B5FD; animation-duration: 12s; max-width: 600px; max-height: 600px; }
+        .blob-2 { top: 20%; right: -20%; width: 40vw; height: 40vw; background: #FBCFE8; animation-delay: 2s; max-width: 500px; max-height: 500px; }
+        .blob-3 { bottom: -10%; left: 20%; width: 45vw; height: 45vw; background: #BAE6FD; animation-delay: 4s; max-width: 550px; max-height: 550px; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(20px, -20px) scale(1.05); } }
 
         /* 高级毛玻璃 */
         .glass-nav {
@@ -68,19 +68,22 @@
 
     <!-- 导航栏 -->
     <nav class="sticky top-0 z-50 glass-nav transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-10">
-                <div class="flex items-center gap-3 cursor-pointer group" @click="goHome">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform duration-300">C</div>
-                    <span class="text-2xl font-extrabold tracking-tighter text-slate-900">CreatorHub</span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex justify-between items-center">
+            <div class="flex items-center gap-4 sm:gap-10">
+                <div class="flex items-center gap-2 sm:gap-3 cursor-pointer group" @click="goHome">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-lg shadow-indigo-200 group-hover:scale-105 transition-transform duration-300">C</div>
+                    <span class="text-xl sm:text-2xl font-extrabold tracking-tighter text-slate-900">CreatorHub</span>
                 </div>
-                <div class="hidden md:flex gap-8 text-base font-bold text-slate-500">
+                <div class="hidden md:flex gap-6 lg:gap-8 text-sm lg:text-base font-bold text-slate-500">
                     <a href="#" @click="goHome" :class="view === 'list' ? 'text-indigo-600' : 'hover:text-slate-800'" class="transition-colors">最新通告</a>
                     <a href="#" @click="view = 'guide'" :class="view === 'guide' ? 'text-indigo-600' : 'hover:text-slate-800'" class="transition-colors">防骗指南</a>
                 </div>
             </div>
-            <button @click="view = 'publish'" class="group relative px-6 py-2.5 rounded-full bg-slate-900 text-white font-bold text-sm shadow-lg shadow-slate-300 hover:shadow-slate-400 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
-                <span class="relative z-10 flex items-center gap-2">免费发布 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg></span>
+            <button @click="view = 'publish'" class="group relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-full bg-slate-900 text-white font-bold text-xs sm:text-sm shadow-lg shadow-slate-300 hover:shadow-slate-400 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden">
+                <span class="relative z-10 flex items-center gap-1 sm:gap-2">
+                    <span class="hidden sm:inline">免费</span>发布 
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </span>
                 <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
         </div>
@@ -90,73 +93,73 @@
     <div v-if="view === 'list'" class="flex-grow w-full max-w-7xl mx-auto px-6 py-12 lg:py-20 animate-fade-in">
         
         <!-- Hero Header -->
-        <header class="text-center mb-16 relative">
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight text-slate-900 leading-[1.1]">
+        <header class="text-center mb-12 sm:mb-16 relative">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 sm:mb-6 tracking-tight text-slate-900 leading-[1.1] px-4">
                 连接品牌与<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">全球创作者</span>
             </h1>
-            <p class="text-xl md:text-2xl text-slate-500 font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
+            <p class="text-base sm:text-xl md:text-2xl text-slate-500 font-medium max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-4">
                 高效、透明、去中心化的 KOC/KOL 招募信息聚合平台
             </p>
             
             <!-- 切换器 -->
-            <div class="inline-flex bg-white p-1.5 rounded-full shadow-xl shadow-indigo-100/50 border border-slate-100 mb-8">
+            <div class="inline-flex bg-white p-1 sm:p-1.5 rounded-full shadow-xl shadow-indigo-100/50 border border-slate-100 mb-6 sm:mb-8">
                 <button @click="activePlatform = 'domestic'" 
                         :class="activePlatform === 'domestic' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'"
-                        class="px-8 py-3 rounded-full font-bold text-base transition-all duration-300">
+                        class="px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all duration-300">
                     🇨🇳 国内广场
                 </button>
                 <button @click="activePlatform = 'overseas'" 
                         :class="activePlatform === 'overseas' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'"
-                        class="px-8 py-3 rounded-full font-bold text-base transition-all duration-300">
+                        class="px-5 sm:px-8 py-2 sm:py-3 rounded-full font-bold text-sm sm:text-base transition-all duration-300">
                     🌍 全球出海
                 </button>
             </div>
 
             <!-- 筛选标签 -->
-            <div class="flex justify-center gap-3 flex-wrap">
+            <div class="flex justify-center gap-2 sm:gap-3 flex-wrap px-4">
                 <button v-for="tag in ['全部', '有稿费', '产品置换', '纯佣带货', 'UGC投稿']" 
                         :key="tag"
                         @click="activeFilter = tag"
                         :class="activeFilter === tag ? 'border-indigo-500 bg-white text-indigo-600 shadow-md' : 'border-transparent text-slate-500 bg-white/40'"
-                        class="px-5 py-2.5 rounded-xl text-sm font-bold border hover:border-indigo-100 hover:bg-white hover:text-indigo-600 hover:shadow-sm transition-all backdrop-blur-sm">
+                        class="px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold border hover:border-indigo-100 hover:bg-white hover:text-indigo-600 hover:shadow-sm transition-all backdrop-blur-sm">
                     {{ tag }}
                 </button>
             </div>
         </header>
 
         <!-- 卡片列表 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             <div v-for="item in filteredList" :key="item.id" @click="goDetail(item)" 
-                 class="group glass-card rounded-[2rem] p-7 cursor-pointer relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/10 hover:bg-white">
+                 class="group glass-card rounded-3xl sm:rounded-[2rem] p-5 sm:p-7 cursor-pointer relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/10 hover:bg-white">
                 
                 <!-- 顶部 hover 光效条 -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
 
-                <div class="flex justify-between items-start mb-6">
-                    <div class="flex items-center gap-3">
-                        <div :class="item.bgClass" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-md">{{ item.categoryCode }}</div>
+                <div class="flex justify-between items-start mb-4 sm:mb-6">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div :class="item.bgClass" class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-md">{{ item.categoryCode }}</div>
                         <div class="flex flex-col">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">{{ item.brandName }}</span>
-                            <span class="text-sm font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md w-fit">{{ item.brandType }}</span>
+                            <span class="text-xs sm:text-sm font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md w-fit">{{ item.brandType }}</span>
                         </div>
                     </div>
-                    <span :class="item.tagClass" class="px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wide">{{ item.mainTag }}</span>
+                    <span :class="item.tagClass" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-[10px] sm:text-xs font-black uppercase tracking-wide shrink-0">{{ item.mainTag }}</span>
                 </div>
 
-                <h3 class="text-xl font-extrabold mb-3 text-slate-800 leading-snug group-hover:text-indigo-600 transition-colors">{{ item.title }}</h3>
+                <h3 class="text-lg sm:text-xl font-extrabold mb-2 sm:mb-3 text-slate-800 leading-snug group-hover:text-indigo-600 transition-colors">{{ item.title }}</h3>
                 
-                <div class="flex flex-wrap gap-2 mb-6">
-                    <span v-for="p in item.platforms" :key="p" class="bg-white border border-slate-200 text-slate-500 px-2.5 py-1 rounded-lg text-xs font-bold">{{ p }}</span>
+                <div class="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                    <span v-for="p in item.platforms" :key="p" class="bg-white border border-slate-200 text-slate-500 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold">{{ p }}</span>
                 </div>
 
-                <p class="text-slate-500 text-base line-clamp-2 mb-8 h-12 leading-relaxed font-medium opacity-80">{{ item.shortDesc }}</p>
+                <p class="text-slate-500 text-sm sm:text-base line-clamp-2 mb-6 sm:mb-8 leading-relaxed font-medium opacity-80">{{ item.shortDesc }}</p>
 
-                <div class="flex justify-between items-center border-t border-slate-100 pt-5 mt-auto">
-                    <div class="flex items-center gap-1.5 text-slate-400 text-sm font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> {{ item.time }}
+                <div class="flex justify-between items-center border-t border-slate-100 pt-4 sm:pt-5 mt-auto">
+                    <div class="flex items-center gap-1 sm:gap-1.5 text-slate-400 text-xs sm:text-sm font-semibold">
+                        <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400"></span> {{ item.time }}
                     </div>
-                    <button class="text-slate-900 text-sm font-black flex items-center gap-1 group-hover:gap-2 transition-all bg-slate-100 px-4 py-2 rounded-full group-hover:bg-indigo-600 group-hover:text-white">
-                        查看详情 <span class="text-lg leading-none">→</span>
+                    <button class="text-slate-900 text-xs sm:text-sm font-black flex items-center gap-1 group-hover:gap-2 transition-all bg-slate-100 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full group-hover:bg-indigo-600 group-hover:text-white">
+                        查看详情 <span class="text-base sm:text-lg leading-none">→</span>
                     </button>
                 </div>
             </div>
@@ -164,35 +167,35 @@
     </div>
 
     <!-- 详情页 -->
-    <div v-if="view === 'detail'" class="flex-grow max-w-5xl mx-auto px-6 py-12 w-full animate-fade-in-up">
-        <button @click="goHome" class="mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-base transition-colors group">
-            <span class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100 group-hover:border-indigo-200 transition-colors">←</span> 返回列表
+    <div v-if="view === 'detail'" class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full animate-fade-in-up">
+        <button @click="goHome" class="mb-6 sm:mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm sm:text-base transition-colors group">
+            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100 group-hover:border-indigo-200 transition-colors">←</span> 返回列表
         </button>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
             <!-- 左侧内容 -->
-            <div class="lg:col-span-8 glass-card bg-white/80 rounded-[2.5rem] p-8 md:p-12 shadow-xl">
-                <div class="flex flex-wrap items-center gap-3 mb-6">
-                    <span :class="currentItem.tagClass" class="px-4 py-1.5 rounded-lg text-sm font-bold">{{ currentItem.mainTag }}</span>
-                    <span class="text-slate-400 text-sm font-semibold">发布时间：{{ currentItem.date || '2024-03-21' }}</span>
+            <div class="lg:col-span-8 glass-card bg-white/80 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-8 md:p-12 shadow-xl">
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                    <span :class="currentItem.tagClass" class="px-3 sm:px-4 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-bold">{{ currentItem.mainTag }}</span>
+                    <span class="text-slate-400 text-xs sm:text-sm font-semibold">发布时间：{{ currentItem.date || '2024-03-21' }}</span>
                 </div>
-                <h1 class="text-3xl md:text-4xl font-black mb-8 text-slate-900 leading-tight">{{ currentItem.title }}</h1>
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-black mb-6 sm:mb-8 text-slate-900 leading-tight">{{ currentItem.title }}</h1>
                 
-                <div class="prose prose-slate prose-lg max-w-none">
-                    <div class="bg-slate-50 rounded-2xl p-6 mb-8 border border-slate-100">
-                        <h3 class="text-base font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> 合作简介
+                <div class="prose prose-slate prose-sm sm:prose-base lg:prose-lg max-w-none">
+                    <div class="bg-slate-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 border border-slate-100">
+                        <h3 class="text-sm sm:text-base font-black text-slate-900 uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-2">
+                            <span class="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-indigo-500"></span> 合作简介
                         </h3>
-                        <p class="text-slate-600 text-base leading-relaxed whitespace-pre-line">{{ currentItem.desc }}</p>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed whitespace-pre-line">{{ currentItem.desc }}</p>
                     </div>
 
-                    <div class="bg-indigo-50/50 rounded-2xl p-6 border border-indigo-100">
-                        <h3 class="text-base font-black text-indigo-900 uppercase tracking-widest mb-4 flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> 具体要求
+                    <div class="bg-indigo-50/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-indigo-100">
+                        <h3 class="text-sm sm:text-base font-black text-indigo-900 uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-2">
+                            <span class="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-indigo-500"></span> 具体要求
                         </h3>
-                        <ul class="space-y-3">
-                            <li v-for="(req, idx) in currentItem.requirements" :key="idx" class="flex items-start text-base text-slate-700 font-medium">
-                                <span class="bg-white text-indigo-600 font-bold w-6 h-6 rounded-full flex items-center justify-center text-xs shadow-sm mr-3 mt-0.5 shrink-0">{{ idx + 1 }}</span>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li v-for="(req, idx) in currentItem.requirements" :key="idx" class="flex items-start text-sm sm:text-base text-slate-700 font-medium">
+                                <span class="bg-white text-indigo-600 font-bold w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs shadow-sm mr-2 sm:mr-3 mt-0.5 shrink-0">{{ idx + 1 }}</span>
                                 {{ req }}
                             </li>
                         </ul>
@@ -201,40 +204,40 @@
             </div>
 
             <!-- 右侧边栏 -->
-            <div class="lg:col-span-4 sticky top-28">
-                <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-slate-100 text-center relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-slate-50 to-transparent"></div>
-                    <div :class="currentItem.bgClass" class="relative w-24 h-24 rounded-3xl mx-auto mb-5 flex items-center justify-center text-white font-bold text-3xl shadow-lg ring-8 ring-slate-50">{{ currentItem.categoryCode }}</div>
-                    <h2 class="text-xl font-extrabold text-slate-900 mb-1">{{ currentItem.brandName }}</h2>
-                    <p class="text-sm font-bold text-slate-400 uppercase tracking-wide mb-8 bg-slate-50 inline-block px-3 py-1 rounded-full">企业认证 · {{ currentItem.brandType }}</p>
+            <div class="lg:col-span-4 lg:sticky lg:top-28">
+                <div class="bg-white rounded-3xl sm:rounded-[2rem] p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-20 sm:h-24 bg-gradient-to-b from-slate-50 to-transparent"></div>
+                    <div :class="currentItem.bgClass" class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl mx-auto mb-4 sm:mb-5 flex items-center justify-center text-white font-bold text-2xl sm:text-3xl shadow-lg ring-4 sm:ring-8 ring-slate-50">{{ currentItem.categoryCode }}</div>
+                    <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mb-1">{{ currentItem.brandName }}</h2>
+                    <p class="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-wide mb-6 sm:mb-8 bg-slate-50 inline-block px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">企业认证 · {{ currentItem.brandType }}</p>
                     
-                    <button class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-base shadow-xl shadow-slate-300 hover:bg-indigo-600 hover:shadow-indigo-300 active:scale-95 transition-all duration-300">
+                    <button class="w-full bg-slate-900 text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-slate-300 hover:bg-indigo-600 hover:shadow-indigo-300 active:scale-95 transition-all duration-300">
                         {{ activePlatform === 'domestic' ? '立即申请合作' : 'Apply Now' }}
                     </button>
-                    <p class="text-xs text-slate-400 mt-4 text-center">点击将跳转至官方联系方式或表单</p>
+                    <p class="text-[10px] sm:text-xs text-slate-400 mt-3 sm:mt-4 text-center">点击将跳转至官方联系方式或表单</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 防骗指南页 -->
-    <div v-if="view === 'guide'" class="flex-grow max-w-4xl mx-auto px-6 py-12 w-full animate-fade-in-up">
-        <button @click="goHome" class="mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-base transition-colors group">
-            <span class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100 group-hover:border-indigo-200 transition-colors">←</span> 返回首页
+    <div v-if="view === 'guide'" class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full animate-fade-in-up">
+        <button @click="goHome" class="mb-6 sm:mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm sm:text-base transition-colors group">
+            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100 group-hover:border-indigo-200 transition-colors">←</span> 返回首页
         </button>
 
-        <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12 border border-slate-200">
+        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8 md:p-12 border border-slate-200">
             <!-- 标题区 -->
-            <div class="border-b border-slate-200 pb-8 mb-8">
-                <h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-3">创作者防骗指南</h1>
-                <p class="text-slate-600 text-base">CreatorHub 平台郑重提醒：请仔细阅读以下内容，保护自身权益</p>
-                <p class="text-slate-400 text-sm mt-2">最后更新：2024年3月</p>
+            <div class="border-b border-slate-200 pb-6 sm:pb-8 mb-6 sm:mb-8">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mb-2 sm:mb-3">创作者防骗指南</h1>
+                <p class="text-slate-600 text-sm sm:text-base">CreatorHub 平台郑重提醒：请仔细阅读以下内容，保护自身权益</p>
+                <p class="text-slate-400 text-xs sm:text-sm mt-2">最后更新：2024年3月</p>
             </div>
 
             <!-- 重要声明 -->
-            <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-8">
-                <h2 class="text-xl font-black text-red-900 mb-3">⚠️ 重要声明</h2>
-                <div class="space-y-2 text-slate-700 leading-relaxed">
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 sm:p-6 mb-6 sm:mb-8">
+                <h2 class="text-lg sm:text-xl font-black text-red-900 mb-2 sm:mb-3">⚠️ 重要声明</h2>
+                <div class="space-y-1.5 sm:space-y-2 text-slate-700 text-sm sm:text-base leading-relaxed">
                     <p>• 本平台承诺<strong>永久免费</strong>，不收取任何形式的费用</p>
                     <p>• 我们<strong>不参与</strong>任何商业交易，仅提供信息展示服务</p>
                     <p>• 创作者与品牌方之间的合作由双方自行协商，本平台不承担任何责任</p>
@@ -243,43 +246,43 @@
             </div>
 
             <!-- 第一部分：核心原则 -->
-            <div class="mb-10">
-                <h2 class="text-2xl font-black text-slate-900 mb-6 pb-3 border-b-2 border-slate-200">一、核心防骗原则</h2>
-                <div class="space-y-4">
-                    <div class="border border-slate-200 rounded-lg p-5">
-                        <h3 class="font-bold text-slate-900 mb-2 text-lg">1. 绝不提前支付任何费用</h3>
-                        <p class="text-slate-600 leading-relaxed">正规品牌方不会要求创作者支付"保证金"、"会员费"、"培训费"、"资料费"等任何费用。所有以此为由要求转账的均为诈骗。</p>
+            <div class="mb-8 sm:mb-10">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-4 sm:mb-6 pb-2 sm:pb-3 border-b-2 border-slate-200">一、核心防骗原则</h2>
+                <div class="space-y-3 sm:space-y-4">
+                    <div class="border border-slate-200 rounded-lg p-4 sm:p-5">
+                        <h3 class="font-bold text-slate-900 mb-1.5 sm:mb-2 text-base sm:text-lg">1. 绝不提前支付任何费用</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">正规品牌方不会要求创作者支付"保证金"、"会员费"、"培训费"、"资料费"等任何费用。所有以此为由要求转账的均为诈骗。</p>
                     </div>
-                    <div class="border border-slate-200 rounded-lg p-5">
-                        <h3 class="font-bold text-slate-900 mb-2 text-lg">2. 警惕不切实际的高收益承诺</h3>
-                        <p class="text-slate-600 leading-relaxed">凡是承诺"日入千元"、"躺赚"、"无需工作轻松赚钱"等不符合市场规律的高额收益，基本都是诈骗陷阱。</p>
+                    <div class="border border-slate-200 rounded-lg p-4 sm:p-5">
+                        <h3 class="font-bold text-slate-900 mb-1.5 sm:mb-2 text-base sm:text-lg">2. 警惕不切实际的高收益承诺</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">凡是承诺"日入千元"、"躺赚"、"无需工作轻松赚钱"等不符合市场规律的高额收益，基本都是诈骗陷阱。</p>
                     </div>
-                    <div class="border border-slate-200 rounded-lg p-5">
-                        <h3 class="font-bold text-slate-900 mb-2 text-lg">3. 保护个人隐私信息</h3>
-                        <p class="text-slate-600 leading-relaxed">不要轻易向陌生人提供身份证照片、银行卡号、验证码等敏感信息。正规合作会通过正式合同来约定相关事项。</p>
+                    <div class="border border-slate-200 rounded-lg p-4 sm:p-5">
+                        <h3 class="font-bold text-slate-900 mb-1.5 sm:mb-2 text-base sm:text-lg">3. 保护个人隐私信息</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">不要轻易向陌生人提供身份证照片、银行卡号、验证码等敏感信息。正规合作会通过正式合同来约定相关事项。</p>
                     </div>
-                    <div class="border border-slate-200 rounded-lg p-5">
-                        <h3 class="font-bold text-slate-900 mb-2 text-lg">4. 坚持使用正规交易渠道</h3>
-                        <p class="text-slate-600 leading-relaxed">正规品牌通常通过企业对公账户或第三方担保平台支付报酬。拒绝任何要求私下转账、使用个人账户交易的要求。</p>
+                    <div class="border border-slate-200 rounded-lg p-4 sm:p-5">
+                        <h3 class="font-bold text-slate-900 mb-1.5 sm:mb-2 text-base sm:text-lg">4. 坚持使用正规交易渠道</h3>
+                        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">正规品牌通常通过企业对公账户或第三方担保平台支付报酬。拒绝任何要求私下转账、使用个人账户交易的要求。</p>
                     </div>
                 </div>
             </div>
 
             <!-- 第二部分：常见诈骗类型 -->
-            <div class="mb-10">
-                <h2 class="text-2xl font-black text-slate-900 mb-6 pb-3 border-b-2 border-slate-200">二、常见诈骗类型识别</h2>
+            <div class="mb-8 sm:mb-10">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 mb-4 sm:mb-6 pb-2 sm:pb-3 border-b-2 border-slate-200">二、常见诈骗类型识别</h2>
                 
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
                     <!-- 类型1 -->
                     <div class="border-2 border-slate-200 rounded-lg overflow-hidden">
-                        <div class="bg-slate-100 px-5 py-3 border-b border-slate-200">
-                            <h3 class="font-black text-slate-900 text-lg">类型一：保证金/押金诈骗</h3>
+                        <div class="bg-slate-100 px-4 sm:px-5 py-2.5 sm:py-3 border-b border-slate-200">
+                            <h3 class="font-black text-slate-900 text-base sm:text-lg">类型一：保证金/押金诈骗</h3>
                         </div>
-                        <div class="p-5">
-                            <p class="text-slate-600 mb-3 leading-relaxed"><strong>诈骗手法：</strong></p>
-                            <p class="text-slate-500 mb-3 pl-4 border-l-2 border-slate-300 italic">以"确保合作诚意"、"防止违约"等理由，要求创作者先支付数百至数千元不等的保证金或押金，声称完成任务后会连同佣金一起返还。</p>
-                            <p class="text-slate-600 mb-2 leading-relaxed"><strong>识别要点：</strong></p>
-                            <ul class="text-slate-600 space-y-1 pl-5 list-disc">
+                        <div class="p-4 sm:p-5">
+                            <p class="text-slate-600 mb-2 sm:mb-3 text-sm sm:text-base leading-relaxed"><strong>诈骗手法：</strong></p>
+                            <p class="text-slate-500 text-sm sm:text-base mb-2 sm:mb-3 pl-3 sm:pl-4 border-l-2 border-slate-300 italic">以"确保合作诚意"、"防止违约"等理由，要求创作者先支付数百至数千元不等的保证金或押金，声称完成任务后会连同佣金一起返还。</p>
+                            <p class="text-slate-600 mb-1.5 sm:mb-2 text-sm sm:text-base leading-relaxed"><strong>识别要点：</strong></p>
+                            <ul class="text-slate-600 text-sm sm:text-base space-y-1 pl-4 sm:pl-5 list-disc">
                                 <li>正规品牌绝不会要求创作者承担任何前期费用</li>
                                 <li>一旦转账，对方会以各种理由拒绝返还或直接失联</li>
                             </ul>
@@ -463,37 +466,37 @@
     </div>
 
     <!-- 发布页 -->
-    <div v-if="view === 'publish'" class="flex-grow max-w-3xl mx-auto px-6 py-12 w-full animate-fade-in-up">
-        <button @click="goHome" class="mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-base transition-colors">← 取消发布</button>
+    <div v-if="view === 'publish'" class="flex-grow max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full animate-fade-in-up">
+        <button @click="goHome" class="mb-6 sm:mb-8 flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold text-sm sm:text-base transition-colors">← 取消发布</button>
         
-        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-indigo-100 p-8 md:p-12 border border-slate-100">
-            <div class="text-center mb-10">
-                <h1 class="text-3xl font-black text-slate-900">发布合作通告</h1>
-                <p class="text-slate-400 font-medium text-base mt-2">完全免费，精准触达 10w+ 创作者</p>
+        <div class="bg-white rounded-3xl sm:rounded-[2.5rem] shadow-2xl shadow-indigo-100 p-6 sm:p-8 md:p-12 border border-slate-100">
+            <div class="text-center mb-8 sm:mb-10">
+                <h1 class="text-2xl sm:text-3xl font-black text-slate-900">发布合作通告</h1>
+                <p class="text-slate-400 font-medium text-sm sm:text-base mt-2">完全免费，精准触达 10w+ 创作者</p>
             </div>
 
-            <div class="space-y-8">
+            <div class="space-y-6 sm:space-y-8">
                 <!-- 步骤1: 市场 -->
                 <div>
-                    <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">目标市场</label>
-                    <div class="grid grid-cols-2 gap-4">
+                    <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2 sm:mb-3">目标市场</label>
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         <label class="radio-box cursor-pointer">
                             <input type="radio" value="domestic" v-model="form.market" class="hidden">
-                            <div class="h-16 rounded-2xl border-2 border-slate-100 flex items-center justify-center font-bold text-base text-slate-500 transition-all hover:bg-slate-50">🇨🇳 国内市场</div>
+                            <div class="h-14 sm:h-16 rounded-xl sm:rounded-2xl border-2 border-slate-100 flex items-center justify-center font-bold text-sm sm:text-base text-slate-500 transition-all hover:bg-slate-50">🇨🇳 国内市场</div>
                         </label>
                         <label class="radio-box cursor-pointer">
                             <input type="radio" value="overseas" v-model="form.market" class="hidden">
-                            <div class="h-16 rounded-2xl border-2 border-slate-100 flex items-center justify-center font-bold text-base text-slate-500 transition-all hover:bg-slate-50">🌍 海外出海</div>
+                            <div class="h-14 sm:h-16 rounded-xl sm:rounded-2xl border-2 border-slate-100 flex items-center justify-center font-bold text-sm sm:text-base text-slate-500 transition-all hover:bg-slate-50">🌍 海外出海</div>
                         </label>
                     </div>
                 </div>
 
                 <!-- 步骤2: 模式与行业 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                        <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">行业分类</label>
+                        <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2 sm:mb-3">行业分类</label>
                         <div class="relative">
-                            <select v-model="form.industry" class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-base font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+                            <select v-model="form.industry" class="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
                                 <option>3C数码</option>
                                 <option>美妆个护</option>
                                 <option>服饰穿搭</option>
@@ -504,8 +507,8 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">合作模式</label>
-                        <select v-model="form.coopMode" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-base font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+                        <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2 sm:mb-3">合作模式</label>
+                        <select v-model="form.coopMode" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 sm:py-3.5 text-sm sm:text-base font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
                             <option>有稿费</option>
                             <option>产品置换</option>
                             <option>纯佣带货</option>
@@ -516,28 +519,28 @@
 
                 <!-- 步骤3: 平台 -->
                 <div>
-                    <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-3">投放平台 (多选)</label>
-                    <div class="flex flex-wrap gap-3">
+                    <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2 sm:mb-3">投放平台 (多选)</label>
+                    <div class="flex flex-wrap gap-2 sm:gap-3">
                         <label v-for="pf in (form.market === 'domestic' ? platforms.domestic : platforms.overseas)" :key="pf" class="check-box cursor-pointer">
                             <input type="checkbox" :value="pf" v-model="form.selectedPlatforms" class="hidden">
-                            <div class="px-5 py-2.5 rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-600 transition-all hover:border-indigo-300 select-none">{{ pf }}</div>
+                            <div class="px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-xl border border-slate-200 bg-white text-xs sm:text-sm font-bold text-slate-600 transition-all hover:border-indigo-300 select-none">{{ pf }}</div>
                         </label>
                     </div>
                 </div>
 
                 <!-- 步骤4: 内容 -->
-                <div class="space-y-4">
+                <div class="space-y-3 sm:space-y-4">
                     <div>
-                        <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-2">通告标题</label>
-                        <input v-model="form.title" type="text" placeholder="一句话描述核心需求，例如：寻找小红书居家博主" class="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-indigo-500 rounded-xl px-5 py-4 text-base font-bold outline-none transition-all placeholder:font-medium placeholder:text-slate-400">
+                        <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2">通告标题</label>
+                        <input v-model="form.title" type="text" placeholder="一句话描述核心需求，例如：寻找小红书居家博主" class="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-indigo-500 rounded-xl px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base font-bold outline-none transition-all placeholder:font-medium placeholder:text-slate-400">
                     </div>
                     <div>
-                        <label class="block text-sm font-black text-slate-400 uppercase tracking-wider mb-2">详细要求</label>
-                        <textarea v-model="form.desc" placeholder="请详细描述您的需求、粉丝量要求、预算范围等..." class="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-indigo-500 rounded-xl px-5 py-4 text-base font-medium outline-none transition-all h-32 resize-none text-slate-700 leading-relaxed"></textarea>
+                        <label class="block text-xs sm:text-sm font-black text-slate-400 uppercase tracking-wider mb-2">详细要求</label>
+                        <textarea v-model="form.desc" placeholder="请详细描述您的需求、粉丝量要求、预算范围等..." class="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-indigo-500 rounded-xl px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base font-medium outline-none transition-all h-28 sm:h-32 resize-none text-slate-700 leading-relaxed"></textarea>
                     </div>
                 </div>
 
-                <button @click="publish" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-base shadow-xl shadow-slate-300 hover:bg-indigo-600 hover:shadow-indigo-300 hover:-translate-y-1 transition-all duration-300 mt-4">
+                <button @click="publish" class="w-full bg-slate-900 text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base shadow-xl shadow-slate-300 hover:bg-indigo-600 hover:shadow-indigo-300 hover:-translate-y-1 transition-all duration-300 mt-2 sm:mt-4">
                     提交审核 (无需注册)
                 </button>
             </div>
